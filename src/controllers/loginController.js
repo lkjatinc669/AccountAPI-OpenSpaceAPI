@@ -35,6 +35,10 @@ function main(req, res) {
     }
 }
 
+function get(){
+
+}
+
 function notAllowed(req, res) {
     res.json({ "error": true, "ERRCODE": "NO_PATH_EXIST", "DESC": "Invalid Path or Path not Exist", "DATA": "none" })
 }
