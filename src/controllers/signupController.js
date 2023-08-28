@@ -1,7 +1,7 @@
 const signupData = require("../models/signupData")
 
 function getError(req, res) {
-    res.json({ "ERROR": "true", "ERRCODE": "GET_NOT_ALLOWED", "DESC": "Insecure way of Sending Data" })
+    res.json({ "ERROR": true, "ERRCODE": "GET_NOT_ALLOWED", "DESC": "Insecure way of Sending Data", "DATA":null })
 }
 
 function main(req, res) {
@@ -13,18 +13,18 @@ function main(req, res) {
 
 
     if (!final) {
-        res.json({ "error": "true", "desc": resString })
+        res.json({ "ERROR": true, "desc": resString })
     } else {
         if (req.query.password.length < 40) {
             res.json({
-                "error": "true",
+                "ERROR": true,
                 "desc": "Password Length is less than 40 Chars. Please use Hashing Algorithm for Encrypting Password"
             })
         } else {
             async function a() {
                 var resList = await signupData(req.query.email, req.query.username, req.query.password)
                 res.json({
-                    "error": "false",
+                    "ERROR": false,
                     "desc": "none",
                     "data": {
                         "id": resList[0],
@@ -67,8 +67,8 @@ function filter(r){
 
 
 
-function notAllowed(req, res) {
-    res.json({ "error": true, "ERRCODE": "NO_PATH_EXIST", "DESC": "Invalid Path or Path not Exist", "DATA": "none" })
+function notAllowed(req, res){
+    res.json({"ERROR":true, "ERRCODE": "NO_PATH_EXIST", "DESC": "Invalid Path or Path not Exist", "DATA":null})
 }
 
 

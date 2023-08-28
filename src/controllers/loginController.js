@@ -1,7 +1,7 @@
 const loginData = require("../models/loginData")
 
 function getError(req, res) {
-    res.json({ "ERROR": "true", "ERRCODE": "GET_NOT_ALLOWED", "DESC": "Insecure way of Sending Data" })
+    res.json({ "ERROR": true, "ERRCODE": "GET_NOT_ALLOWED", "DESC": "Insecure way of Sending Data", "DATA":null })
 }
 
 
@@ -21,12 +21,12 @@ function main(req, res) {
     if (isTypeExist && isDataExist && isPasswordExist) { final = true }
 
     if (!final) {
-        res.json({ "error": "true", "desc": resString })
+        res.json({ "ERROR": true, "desc": resString })
     } else {
         async function a() {
             var resList = await loginData(req.query.type, req.query.data, req.query.password)
             res.json({
-                "error": "false",
+                "ERROR": false,
                 "desc": "none",
                 "data": resList
             })
@@ -39,8 +39,8 @@ function get(){
 
 }
 
-function notAllowed(req, res) {
-    res.json({ "error": true, "ERRCODE": "NO_PATH_EXIST", "DESC": "Invalid Path or Path not Exist", "DATA": "none" })
+function notAllowed(req, res){
+    res.json({"ERROR":true, "ERRCODE": "NO_PATH_EXIST", "DESC": "Invalid Path or Path not Exist", "DATA":null})
 }
 
 module.exports = { getError, main, notAllowed }

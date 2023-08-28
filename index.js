@@ -39,7 +39,7 @@ connection.query("SELECT 1=1")
                     printer.info("[INFO] : Server Started Successfully")
                     printer.info("[INFO] : Accounts API - by OpenSpaceAPI is Running on PORT " + PORT)
                 }
-            }).on("error", function (err) {
+            }).on("ERROR", function (err) {
                 printer.warning("[Error] : Error Occured " + e)
             })
         }

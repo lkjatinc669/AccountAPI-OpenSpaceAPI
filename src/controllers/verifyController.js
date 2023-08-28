@@ -1,7 +1,7 @@
 const verifyData = require("../models/verifyData")
 
 function getError(req, res) {
-    res.json({ "ERROR": "true", "ERRCODE": "GET_NOT_ALLOWED", "DESC": "Insecure way of Sending Data" })
+    res.json({ "ERROR": true, "ERRCODE": "GET_NOT_ALLOWED", "DESC": "Insecure way of Sending Data", "DATA":null })
 }
 
 function generate(req, res) {
@@ -15,11 +15,11 @@ function generate(req, res) {
     if (isUserIDExists && isMailExists) { final = true }
 
     if (!final) {
-        res.json({ "ERROR": "true", "ERRCODE": ERRCODE, "DESC": resString })
+        res.json({ "ERROR": true, "ERRCODE": ERRCODE, "DESC": resString })
     } else {
         (async () => {
             var result = await verifyData.verifygenerateCracks()
-            res.json({ "ERROR": "true", "DESC": resString })
+            res.json({ "ERROR": true, "DESC": resString })
         })()
     }
     res.json(req.query)
@@ -37,8 +37,8 @@ function verifyotpHelperController(){
     
 }
 
-function notAllowed(req, res) {
-    res.json({ "ERROR": true, "ERRCODE": "NO_PATH_EXIST", "DESC": "Invalid Path or Path not Exist", "DATA": "none" })
+function notAllowed(req, res){
+    res.json({"ERROR":true, "ERRCODE": "NO_PATH_EXIST", "DESC": "Invalid Path or Path not Exist", "DATA":null})
 }
 
 module.exports = { getError, generate, verifyotp, notAllowed }
