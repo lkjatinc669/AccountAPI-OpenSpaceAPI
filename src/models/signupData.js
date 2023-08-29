@@ -4,6 +4,15 @@ const printer = require("../extra/colorPrinter")
 
 // Main Signup Function
 
+// "id": resList[0],
+// "fname": resList[1],
+// "lname": resList[2],
+// "email": resList[3],
+// "username": resList[4],
+// "profileurl": resList[5],
+// "token": resList[6],
+// "isverified": resList[7]
+
 async function signupCracks(email, username, password) {
     var id = generator(20)
     var token = generator(30)

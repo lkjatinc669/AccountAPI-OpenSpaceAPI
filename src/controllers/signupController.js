@@ -6,44 +6,48 @@ function getError(req, res) {
 
 function main(req, res) {
     
-    filter(req.query)
+    const _data = filterFetch(req.query)
 
 
 
 
-
-    if (!final) {
-        res.json({ "ERROR": true, "desc": resString })
+    // [r.fname, r.lname, r.email, r.username, r.password]
+    if (!_data[0]) {
+        res.json({"ERROR":true, "ERRCODE": _data[1], "DESC": _data[2], "DATA":null})
     } else {
         if (req.query.password.length < 40) {
             res.json({
                 "ERROR": true,
-                "desc": "Password Length is less than 40 Chars. Please use Hashing Algorithm for Encrypting Password"
+                "ERRCODE": "INVALID_PASSWORD_LENGTH",
+                "DESC": "Password Length is less than 40 Chars. Please use Hashing Algorithm for Encrypting Password",
+                "DATA": null
             })
         } else {
-            async function a() {
-                var resList = await signupData(req.query.email, req.query.username, req.query.password)
+            (async () => {
+                var resList = await signupData(_data[0], _data[1], _data[2], _data[3], _data[4])
                 res.json({
                     "ERROR": false,
-                    "desc": "none",
-                    "data": {
+                    "ERRCODE": "NO_ERROR",
+                    "DESC": null,
+                    "DATA": {
                         "id": resList[0],
-                        "email": resList[1],
-                        "username": resList[2],
-                        "token": resList[3]
+                        "fname": resList[1],
+                        "lname": resList[2],
+                        "email": resList[3],
+                        "username": resList[4],
+                        "profileurl": resList[5],
+                        "token": resList[6],
+                        "isverified": resList[7]
                     }
                 })
-            }
-            a()
+            })();
         }
     }
 }
 
-function filter(r){
-    var final = false
-
+function filterFetch(r){
     var rStr = "Please Provide"
-    var ERRCODE = "ERR"
+    var ERRCODESTR = "PROVIDE"
     
     var isFNameExist = false;
     var isLNameExist = false;
@@ -51,21 +55,19 @@ function filter(r){
     var isUsernameExist = false;
     var isPasswordExist = false;
 
-    if (r.fname) {isFNameExist = true} else {rStr += " First Name"; }
+    if (r.fname) {isFNameExist = true} else {rStr += " First Name"; ERRCODESTR += "_FNAME"}
+    if (r.lname) {isLNameExist = true} else {rStr += " Last Name"; ERRCODESTR += "_LNAME"}
+    if (r.email) {isEmailExist = true} else {rStr += " Email"; ERRCODESTR += "_EMAIL"}
+    if (r.username) {isUsernameExist = true} else {rStr += " Username"; ERRCODESTR += "_USERNAME"}
+    if (r.password) {isPasswordExist = true} else {rStr += " Password"; ERRCODESTR += "_PASSWORD"}
 
+    rStr = rStr.slice(0, rStr.length-1)
+    rStr += " Fields"
 
-    if (req.email) { isEmailExists = true } else { resString += " email" }
-    if (req.username) { isUsernameExists = true } else { resString += " username" }
-    if (req.password) { isPasswordExist = true } else { resString += " password" }
-
-
-    if (isEmailExists && isUsernameExists && isPasswordExist) { final = true }
-
-    return (s)
+    if ( isFNameExist && isLNameExist && isEmailExist && isUsernameExist && isPasswordExist ) 
+    { return [true, "NO_ERROR", null, [r.fname, r.lname, r.email, r.username, r.password]] }
+    else { return [false, ERRCODESTR, rStr, null] }
 }
-
-
-
 
 function notAllowed(req, res){
     res.json({"ERROR":true, "ERRCODE": "NO_PATH_EXIST", "DESC": "Invalid Path or Path not Exist", "DATA":null})

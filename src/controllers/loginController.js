@@ -21,21 +21,21 @@ function main(req, res) {
     if (isTypeExist && isDataExist && isPasswordExist) { final = true }
 
     if (!final) {
-        res.json({ "ERROR": true, "desc": resString })
+        res.json({ "ERROR": true, "DESC": resString })
     } else {
         async function a() {
             var resList = await loginData(req.query.type, req.query.data, req.query.password)
             res.json({
                 "ERROR": false,
-                "desc": "none",
-                "data": resList
+                "DESC": null,
+                "DATA": resList
             })
         }
         a()
     }
 }
 
-function get(){
+function filterFetch(){
 
 }
 

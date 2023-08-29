@@ -31,13 +31,13 @@ async function checkuserid(userid){
     if (yy.length == 0) { return false } else { return true }
 }
 
-// Main Check Username function
+// Main Check Mail function
 
 async function checkmailCracks(mail) {
     return await checkMail(mail)
 }
 
-// Helper Check UserName function 
+// Helper Check Mail function 
 
 async function checkMail(mail){
     QUERY = `SELECT 1=1 FROM users where email = '${mail}'`;
@@ -46,4 +46,19 @@ async function checkMail(mail){
     if (yy.length == 0) { return false } else { return true }
 }
 
-module.exports = {checkuseridCracks, checkusernameCracks, checkmailCracks}
+// Main Check Token function
+
+async function checktokenCracks(token) {
+    return await checkToken(token)
+}
+
+// Helper Check Token function 
+
+async function checkToken(token){
+    QUERY = `SELECT 1=1 FROM openspaceuserstable where newToken = '${token}'`;
+    const [yy] = await connection.query(QUERY)
+        .catch(error => printer.warning("[ERROR] : "+error))
+    if (yy.length == 0) { return false } else { return true }
+}
+
+module.exports = {checkuseridCracks, checkusernameCracks, checkmailCracks, checktokenCracks}

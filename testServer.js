@@ -12,6 +12,6 @@ function fet(r) {
     return data+er
 }
 
-
+// ngrok http --domain=logical-suitable-bobcat.ngrok-free.app 80
 
 app.listen(3000);

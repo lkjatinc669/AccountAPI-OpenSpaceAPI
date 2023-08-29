@@ -20,8 +20,8 @@
 | ERRCODE  | EndPoint | Reason |  Detail |
 | ------------- | ------------- | ------------- | ------------- |
 | GET_NOT_ALLOWED | All | Get Request | Make POST Request |
-| | | |
-| | | |
-| | | |
-| | | |
+| INVALID_OTP | | |
+| OTP_VERIFIED | | |
+| OTP_PASS_VERIFICATION_ERROR | | |
+| USERID_UNVERIFIED | | |
 | | | |

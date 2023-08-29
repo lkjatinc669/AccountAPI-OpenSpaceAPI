@@ -16,18 +16,22 @@ async function verifygenerateCracks(userID, email) {
     
     var unqExist = await checkunqIDExists(unqID)
     var verExist = await checkTokenExists(verifyGenToken)
-    
+    // Error 
     while (unqExist) { unqID = generator(20); var unqExist = await checkunqIDExists(unqID) }
     while (verExist) { verifyGenToken = generator(20); var unqExist = await checkunqIDExists(verifyGenToken) }
-    
+    ERRCODESTR = ""; r=""
     outs = await isUserIdExists(userID)
     if (outs) {
         crack = await optUpdate(userID, verifyGenToken, hash)
+        ERRCODESTR = "OTP_UPDATED"
+        r="OTP re-send successfully"
     } else {
         crack = await otpInsert(unqID, userID, verifyGenToken, hash)
+        ERRCODESTR = "OTP_SEND"
+        r="OTP send successfully"
     }
     mailer(email, otp)
-    return ["SUCCESSFUL", crack, verifyGenToken]
+    return [true, ERRCODESTR, r, [crack, verifyGenToken]]
 }
 
 // Helper OTP Generation Function
@@ -88,17 +92,18 @@ async function verifyotpCracks(userID, verifyToken, otpHash) {
     var data = await checkOTP(verifyToken, otpHash) // 0 or userid
 
     if (data == 0){
-        return "INVALID_OTP"
+        return [false, "INVALID_OTP", "Unverified OTP", null]
     } else {
         if (data == userID) {
             res = await updateVerification(userID)
             if (res == 1) {
-                return "VERIFIED"
+                return [true, "OTP_VERIFIED", "OTP Verification Successful", null]
             } else {
-                return "OTP_PASS_VERIFICATION_ERROR"
+                return [false, "OTP_PASS_VERIFICATION_ERROR", "OTP Verified, error in verification update", null]
             }
         } else {
-            return "USERID_UNVERIFIED"
+            // return "USERID_UNVERIFIED"
+            return [false, "USERID_UNVERIFIED", "User Id not validated", null]
         }
     }
 }
