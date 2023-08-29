@@ -55,7 +55,7 @@ async function checktokenCracks(token) {
 // Helper Check Token function 
 
 async function checkToken(token){
-    QUERY = `SELECT 1=1 FROM openspaceuserstable where newToken = '${token}'`;
+    QUERY = `SELECT 1=1 FROM openspaceuserstable where osa_newToken = '${token}'`;
     const [yy] = await connection.query(QUERY)
         .catch(error => printer.warning("[ERROR] : "+error))
     if (yy.length == 0) { return false } else { return true }

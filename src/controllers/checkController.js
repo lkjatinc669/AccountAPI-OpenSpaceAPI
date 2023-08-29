@@ -1,5 +1,5 @@
 const checkData = require("../models/checkData")
-const mailVerifier = require("../extra/mail-verifier")
+const mailVerifier = require("../extra/verifier")
 
 function getError(req, res){
     res.json({ "ERROR": true, "ERRCODE": "GET_NOT_ALLOWED", "DESC": "Insecure way of Sending Data", "DATA":null })

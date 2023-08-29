@@ -7,3 +7,15 @@ CREATE TABLE IF NOT EXISTS users(
     isVerified BOOLEAN,
     isDisable BOOLEAN,
 );
+
+
+-- id => osa_userUnqID
+-- firstName => osa_firstName  
+-- email => osa_userMail
+-- username => osa_userName
+-- password => osa_passWord
+-- profileURL => osa_pPicURL
+-- oldToken => osa_oldToken
+-- newToken => osa_newToken
+-- isVerified => osa_isVerified
+-- isDisable => osa_isDisabled
