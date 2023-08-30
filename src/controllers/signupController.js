@@ -114,7 +114,6 @@ function filterFetch(r){
 
     if (r.mail) {
         isEmailExist = true
-        console.log(verifier.verifyMail(r.mail))
         if (verifier.verifyMail(r.mail)){
             isValidEmail = true;
         } else {
@@ -156,6 +155,5 @@ function filterFetch(r){
 function notAllowed(req, res){
     res.json({"ERROR":true, "ERRCODE": "NO_PATH_EXIST", "DESC": "Invalid Path or Path not Exist", "DATA":null})
 }
-
 
 module.exports = { getError, main, notAllowed }

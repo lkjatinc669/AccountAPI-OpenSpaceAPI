@@ -68,8 +68,8 @@ function filterFetch(r) {
     var isTokenExist = false;
     var isPasswordExist = false;
     if (r.type) {
+        isTypeExist = true
         if (r.type == "em" || r.type == "un") {
-            isTypeExist = true
             isValidTypeExist = true
         } else {
             rStr += " Valid Type,"; ERRCODESTR += "_VALIDTYPE"
@@ -79,17 +79,16 @@ function filterFetch(r) {
     }
 
     if (r.data) {
+        isDataExist = true;
         if (r.data && isTypeExist) {
             if (r.type == "un") {
                 if (verifier.verifyUserName(r.data)) {
-                    isDataExist = true;
                     isValidDataExist = true;
                 } else {
                     rStr += " Valid Username,"; ERRCODESTR += "_VALIDUSERNAME"
                 }
             } else if (r.type == "em") {
                 if (verifier.verifyMail(r.data)) {
-                    isDataExist = true;
                     isValidDataExist = true;
                 } else {
                     rStr += " Valid Mail,"; ERRCODESTR += "_INVALIDEMAIL"
@@ -102,6 +101,11 @@ function filterFetch(r) {
 
     if (r.password) {
         isPasswordExist = true
+        if (verifier.verifyPassword(r.password)){
+            isValidPassword = true
+        } else {
+            rStr += " Valid Password,"; ERRCODESTR += "_VALIDPASSWORD"
+        }
     } else {
         rStr += " Password,"; ERRCODESTR += "_PASSWORD"
     }

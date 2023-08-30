@@ -1,44 +1,93 @@
 const verifyData = require("../models/verifyData")
 
 function getError(req, res) {
-    res.json({ "ERROR": true, "ERRCODE": "GET_NOT_ALLOWED", "DESC": "Insecure way of Sending Data", "DATA":null })
+    res.json({ "ERROR": true, "ERRCODE": "GET_NOT_ALLOWED", "DESC": "Insecure way of Sending Data", "DATA": null })
 }
 
-function generate(req, res) {
-    var final = false
-    var isUserIDExists = isMailExists = false
-    var resString = "Please Provide "
-    var ERRCODESTR = "PROVIDE"
-    if (req.query.userid) { isUserIDExists = true } else { resString += " userid"; ERRCODESTR += "_USERID" }
-    if (req.query.mail) { isMailExists = true } else { resString += " mail"; ERRCODESTR += "_MAIL" }
+async function generate(req, res) {
+    const list = filterFetchA(req.query)
 
-    if (isUserIDExists && isMailExists) { final = true }
-
-    if (!final) {
-        res.json({ "ERROR": true, "ERRCODE": ERRCODE, "DESC": resString })
+    ata = list[3]
+    if (!list[0]){
+        res.json({"ERROR":true, "ERRCODE": list[1], "DESC": list[2], "DATA":null})
     } else {
-        (async () => {
-            var result = await verifyData.verifygenerateCracks()
-            res.json({ "ERROR": true, "DESC": resString })
-        })()
+        const yy = await verifyData.verifygenerateCracks(data[0], data[1])
+        res.json({
+            "ERROR" :yy[0], 
+            "ERRCODE" : yy[1], 
+            "DESC": yy[2], 
+            "DATA": yy[3]
+        })
     }
-    res.json(req.query)
 }
 
-function generateHelperController(){
-
-}
-
-function verifyotp(req, res) {
-    //
-}
-
-function verifyotpHelperController(){
+function filterFetchA(r){
+    isMailExists = false
+    isValidEmail = false;
+    isUserIDExists = false; 
+    var rStr = "Please Provide "
+    var ERRCODESTR = "PROVIDE"   
     
+    if (r.userid) { isUserIDExists = true } else { rStr += " userid"; ERRCODESTR += "_USERID" }
+
+    if (r.mail) {
+        isMailExists = true
+        if (verifier.verifyMail(r.mail)){
+            isValidEmail = true;
+        } else {
+            rStr += " Valid Mail,"; ERRCODESTR += "_VALIDMAIL"
+        }
+    } else {
+        rStr += " mail"; ERRCODESTR += "_MAIL"
+    }
+
+    if (isUserIDExists && isMailExists && isValidEmail) { 
+        { return [true, "NO_ERROR", null, [r.userid, r.mail]] }
+    } else {
+        { return [false, ERRCODESTR, rStr, null] }
+    }
 }
 
-function notAllowed(req, res){
-    res.json({"ERROR":true, "ERRCODE": "NO_PATH_EXIST", "DESC": "Invalid Path or Path not Exist", "DATA":null})
+async function verifyotp(req, res){
+    list = filterFetchB(req.query)
+
+    data = list[3]
+    if (!list[0]){
+        res.json({"ERROR":true, "ERRCODE": list[1], "DESC": list[2], "DATA":null})
+    } else {
+        const yy = await verifyData.verifyotpCracks(data[0], data[1], data[2])
+        res.json({
+            "ERROR" :yy[0], 
+            "ERRCODE" : yy[1], 
+            "DESC": yy[2], 
+            "DATA": yy[3]
+        })
+    }
+}
+
+function filterFetchB(r){
+    isUserIDExists = false; 
+    isTokenExists = false;
+    isOTPExists = false;
+
+    var rStr = "Please Provide "
+    var ERRCODESTR = "PROVIDE" 
+    
+    if (r.userid) { isUserIDExists = true } else { rStr += " userid"; ERRCODESTR += "_USERID" }
+
+    if (r.token) { isTokenExists = true} else { rStr = " token"; ERRCODESTR += "_TOKEN" }
+
+    if(r.otp) { isOTPExists = true} else { rStr = " otp"; ERRCODESTR += "_OTP" }
+
+    if (isUserIDExists && isTokenExists && isOTPExists) { 
+        { return [true, "NO_ERROR", null, [r.userid, r.token, r.otp]] }
+    } else {
+        { return [false, ERRCODESTR, rStr, null] }
+    }
+}
+
+function notAllowed(req, res) {
+    res.json({ "ERROR": true, "ERRCODE": "NO_PATH_EXIST", "DESC": "Invalid Path or Path not Exist", "DATA": null })
 }
 
 module.exports = { getError, generate, verifyotp, notAllowed }
