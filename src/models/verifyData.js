@@ -18,7 +18,7 @@ async function verifygenerateCracks(userID, email) {
     var verExist = await checkTokenExists(verifyGenToken)
     // Error 
     while (unqExist) { unqID = generator(20); unqExist = await checkunqIDExists(unqID) }
-    while (verExist) { verifyGenToken = generator(20); unqExist = await checkunqIDExists(verifyGenToken) }
+    while (verExist) { verifyGenToken = generator(20); verExist = await checkTokenExists(verifyGenToken) }
     ERRCODESTR = ""; r=""
     outs = await isUserIdExists(userID)
     if (outs) {
