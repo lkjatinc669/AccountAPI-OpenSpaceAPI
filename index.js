@@ -14,13 +14,14 @@ loginRoute = require("./src/routes/loginRoutes")
 signupRoute = require("./src/routes/signupRoutes")
 verifyRoute = require("./src/routes/verifyRoutes")
 checkRoute = require("./src/routes/checkRoutes")
+forgotpasswordRoute = require("./src/routes/forgotpasswordRoutes")
 
 const PORT = 6691;
 const app = express();
 
 app.use("/login", loginRoute)
 app.use("/signup", signupRoute)
-app.use("/forgot-password", signupRoute)
+app.use("/forgot-password", forgotpasswordRoute)
 app.use("/verify", verifyRoute)
 app.use("/check", checkRoute)
 

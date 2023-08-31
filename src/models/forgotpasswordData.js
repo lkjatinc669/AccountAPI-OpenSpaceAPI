@@ -4,43 +4,68 @@ const generator = require("../extra/generators")
 const printer = require("../extra/colorPrinter")
 const connection = require("../db/connection")
 const userTable = process.env.USERSTABLE;
-const verifyTable = process.env.VERIFYTABLE;
+const fpTable = process.env.FPTABLE;
 
 function out(d) { console.log(d) }
 
 // Main OTP Generation Function
 
-async function verifygenerateCracks(userID, email) {
-    verifyGenToken = generator(40)
+async function fpgenerateCracks(username, mail, token) {
+
+    if (username != null && mail != null){
+        out("fpUnM")
+    } else if (username != null && token != null){
+        out("fpUnT")
+    } else if (mail != null && token != null){
+        out("fpMnT")
+    }
+
+    fpGenToken = generator(40)
     unqID = generator(20)
     
     x = genOTP()
     otp = x[0], hash = x[1]
     
-    var unqExist = await checkunqIDExists(unqID)
-    var verExist = await checkTokenExists(verifyGenToken)
+    // var unqExist = await checkunqIDExists(unqID)
+    // var fptExist = await checkTokenExists(fpGenToken)
+
+
+
     // Error 
-    while (unqExist) { unqID = generator(20); unqExist = await checkunqIDExists(unqID) }
-    while (verExist) { verifyGenToken = generator(20); verExist = await checkTokenExists(verifyGenToken) }
-    ERRCODESTR = ""; r=""
-    outs = await isUserIdExists(userID)
-    if (outs) {
-        crack = await optUpdate(userID, verifyGenToken, hash)
-        ERRCODESTR = "OTP_UPDATED"
-        r="OTP re-send successfully"
-    } else {
-        crack = await otpInsert(unqID, userID, verifyGenToken, hash)
-        ERRCODESTR = "OTP_SEND"
-        r="OTP send successfully"
-    }
-    mailer(email, otp)
-    return [true, ERRCODESTR, r, [crack, verifyGenToken]]
+    // while (unqExist) { unqID = generator(20); unqExist = await checkunqIDExists(unqID) }
+    // while (fptExist) { verifyGenToken = generator(20); fptExist = await checkTokenExists(verifyGenToken) }
+    // ERRCODESTR = ""; r=""
+    // outs = await isUserIdExists(userID)
+    // if (outs) {
+    //     crack = await optUpdate(userID, verifyGenToken, hash)
+    //     ERRCODESTR = "OTP_UPDATED"
+    //     r="OTP re-send successfully"
+    // } else {
+    //     crack = await otpInsert(unqID, userID, verifyGenToken, hash)
+    //     ERRCODESTR = "OTP_SEND"
+    //     r="OTP send successfully"
+    // }
+    // mailer(email, otp)
+    // return [true, ERRCODESTR, r, [crack, verifyGenToken]]
 }
 
 // Helper OTP Generation Function
 
+async function fpUnM(username, mail){
+    
+}
+
+async function fpUnT(username, token){
+    
+}
+
+async function fpMnT(mail, token){
+    
+}
+
+
 async function isUserIdExists(userID) {
-    QUERY = `SELECT userID FROM ${verifyTable} where userID = '${userID}'`;
+    QUERY = `SELECT userID FROM ${fpTable} where userID = '${userID}'`;
     // QUERY = `SELECT userID FROM verifytable where 1`;
     const [yy] = await connection.query(QUERY)
         .catch(error => printer.warning("[ERROR] : "+error))
@@ -49,7 +74,7 @@ async function isUserIdExists(userID) {
 
 
 async function optUpdate(userID, verifierToken, hash) {
-    QUERY = `UPDATE ${verifyTable} SET 
+    QUERY = `UPDATE ${fpTable} SET 
     verifierToken='${verifierToken}',otpHash='${hash}',time=CURRENT_TIMESTAMP 
     WHERE userID='${userID}'`
     const [yy] = await connection.query(QUERY)
@@ -59,7 +84,7 @@ async function optUpdate(userID, verifierToken, hash) {
 }
 
 async function otpInsert(unqid, userID, verifierToken, hash) {
-    QUERY = `INSERT INTO ${verifyTable} (unqID, userID, verifierToken, otpHash, time) 
+    QUERY = `INSERT INTO ${fpTable} (unqID, userID, verifierToken, otpHash, time) 
     VALUES ('${unqid}', '${userID}', '${verifierToken}', '${hash}', CURRENT_TIMESTAMP)`
     const [yy] = await connection.query(QUERY)
     .catch(error => printer.warning("[ERROR] : "+error))
@@ -67,7 +92,7 @@ async function otpInsert(unqid, userID, verifierToken, hash) {
 }
 
 async function checkunqIDExists(id) {
-    QUERY = `SELECT userID FROM ${verifyTable} where unqID = '${id}'`;
+    QUERY = `SELECT userID FROM ${fpTable} where unqID = '${id}'`;
     // QUERY = `SELECT userID FROM verifytable where 1`;
     const [yy] = await connection.query(QUERY)
     .catch(error => printer.warning("[ERROR] : "+error))
@@ -75,7 +100,7 @@ async function checkunqIDExists(id) {
 }
 
 async function checkTokenExists(token) {
-    QUERY = `SELECT userID FROM ${verifyTable} where verifierToken = '${token}'`;
+    QUERY = `SELECT userID FROM ${fpTable} where verifierToken = '${token}'`;
     // QUERY = `SELECT userID FROM verifytable where 1`;
     const [yy] = await connection.query(QUERY)
     .catch(error => printer.warning("[ERROR] : "+error))
@@ -91,7 +116,57 @@ async function checkTokenExists(token) {
 
 // Main OTP Verification Function
 
-async function verifyotpCracks(userID, verifyToken, otpHash) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+async function fpotpCracks(userID, verifyToken, otpHash) {
     var data = await checkOTP(verifyToken, otpHash) // 0 or userid
 
     if (data == 0){
@@ -114,7 +189,7 @@ async function verifyotpCracks(userID, verifyToken, otpHash) {
 // Helper OTP Verification Function
 
 async function checkOTP(data0, data1) {
-    QUERY = `SELECT userID FROM ${verifyTable} WHERE verifierToken='${data0}' AND otpHash='${data1}'`
+    QUERY = `SELECT userID FROM ${fpTable} WHERE verifierToken='${data0}' AND otpHash='${data1}'`
     const [yy] = await connection.query(QUERY)
         .catch(error => printer.warning("[ERROR] : "+error))
     if (yy.length == 0){
@@ -152,4 +227,4 @@ function genOTP() {
     return [out, outhash]
 }
 
-module.exports = {verifygenerateCracks, verifyotpCracks}
+module.exports = {fpgenerateCracks, fpotpCracks}

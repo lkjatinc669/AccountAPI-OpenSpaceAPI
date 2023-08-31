@@ -5,7 +5,6 @@ function getError(req, res) {
     res.json({ "ERROR": true, "ERRCODE": "GET_NOT_ALLOWED", "DESC": "Insecure way of Sending Data", "DATA": null })
 }
 
-
 function main(req, res) {
     var list = filterFetch(req.query);
     // console.log(list)
