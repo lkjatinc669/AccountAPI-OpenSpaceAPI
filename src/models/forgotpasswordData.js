@@ -52,15 +52,30 @@ async function fpgenerateCracks(username, mail, token) {
 // Helper OTP Generation Function
 
 async function fpUnM(username, mail){
-    
+    QUERY = `SELECT osa_userUnqID FROM ${userTable} 
+    where osa_userName = '${username}' AND osa_userMail = '${mail}`;
+    // QUERY = `SELECT userID FROM verifytable where 1`;
+    const [dataSet] = await connection.query(QUERY)
+        .catch(error => printer.warning("[ERROR] : "+error))
+    if (dataSet.length == 0) { return false } else { return dataSet }
 }
 
 async function fpUnT(username, token){
-    
+    QUERY = `SELECT osa_userUnqID FROM ${userTable} 
+    where osa_userName = '${username}' AND osa_newToken = '${token}'`;
+    // QUERY = `SELECT userID FROM verifytable where 1`;
+    const [dataSet] = await connection.query(QUERY)
+        .catch(error => printer.warning("[ERROR] : "+error))
+    if (dataSet.length == 0) { return false } else { return dataSet }
 }
 
 async function fpMnT(mail, token){
-    
+    QUERY = `SELECT osa_userUnqID FROM ${userTable} 
+    where osa_userMail = '${mail}' AND osa_newToken = '${token}'`;
+    // QUERY = `SELECT userID FROM verifytable where 1`;
+    const [dataSet] = await connection.query(QUERY)
+        .catch(error => printer.warning("[ERROR] : "+error))
+    if (dataSet.length == 0) { return false } else { return dataSet }
 }
 
 
