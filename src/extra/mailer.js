@@ -36,7 +36,6 @@ async function sendMailOTP(to, otp){
 
 OTPhtml = (data) => `<!DOCTYPE html><html lang="en"><head><style>*{margin:0;padding:0;box-sizing:border-box}html{height:300px}body{height:100%;background-color:#171717;color:#f5f5f5;display:flex;flex-direction:column;align-items:center;justify-content:center}img{width:130px;border-radius:10px}</style></head><body><img src="https://deep-image.ai/blog/content/images/2022/09/underwater-magic-world-8tyxt9yz.jpeg" alt="logo"><h1 id="title">EBooksy</h1><h4>Integration with OpenSpaceAPI</h4><p>Your OTP is ${data}</p></body></html>`
 
-
 module.exports = {sendMailOTP}
 
 
