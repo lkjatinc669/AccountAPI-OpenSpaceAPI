@@ -285,16 +285,15 @@ async function fpUpdatePasswordCracks(fpPassToken, passwordHash) {
     if(data[0]['fpVerified']==0){
 
     } else {
-        const data2 = await updatePassword(data[0]['unqid'], passwordHash)
+        const data2 = await updatePassword(data[0]['userid'], passwordHash)
         console.log(data2)
     }
 }
 
 async function checkFPPass(fpPassToken){
-    QUERY = `SELECT unqid, fpVerified FROM ${fpTable} WHERE fpPassToken='${fpPassToken}'`
+    QUERY = `SELECT userid, fpVerified FROM ${fpTable} WHERE fpPassToken='${fpPassToken}'`
     const [yy] = await connection.query(QUERY)
         .catch(error => printer.warning("[ERROR] : "+error))
-        console.log(yy)
     if (yy.length == 0) { return false } else { return yy }
 }
     (async () => {
