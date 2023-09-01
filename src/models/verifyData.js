@@ -126,8 +126,9 @@ async function checkOTP(data0, data1) {
 
 async function updateVerification(userID) {
     QUERY = `UPDATE ${userTable} 
-    SET isVerified='1'
-    WHERE username='${userID}'`
+    SET osa_isVerified='1'
+    WHERE osa_userUnqID='${userID}'`
+    console.log(QUERY)
     const [yy] = await connection.query(QUERY)
         .catch(error => printer.warning("[ERROR] : "+error))
     return await yy['affectedRows']

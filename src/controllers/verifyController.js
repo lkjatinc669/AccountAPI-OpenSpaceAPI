@@ -1,4 +1,5 @@
 const verifyData = require("../models/verifyData")
+const verifier = require("../extra/verifier")
 
 function getError(req, res) {
     res.json({ "ERROR": true, "ERRCODE": "GET_NOT_ALLOWED", "DESC": "Insecure way of Sending Data", "DATA": null })
@@ -7,7 +8,7 @@ function getError(req, res) {
 async function generate(req, res) {
     const list = filterFetchA(req.query)
 
-    ata = list[3]
+    data = list[3]
     if (!list[0]){
         res.json({"ERROR":true, "ERRCODE": list[1], "DESC": list[2], "DATA":null})
     } else {
