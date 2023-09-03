@@ -4,7 +4,11 @@ const verifyController = require('../controllers/verifyController')
 
 router.get('/*', verifyController.getError)
 
+
+router.post('/', verifyController.notAllowed)
+
 router.post("/generate", verifyController.generate)
-router.post("/verifyotp", verifyController.verifyotp)
+router.post("/verify-otp", verifyController.verifyotp)
+router.get('/*', verifyController.notAllowed)
 
 module.exports = router

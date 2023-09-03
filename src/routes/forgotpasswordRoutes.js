@@ -3,9 +3,9 @@ const router = express.Router()
 const forgotpasswordController = require('../controllers/forgotpasswordController')
 
 
-router.post("/forgot", forgotpasswordController.init)
-router.post("/verify-otp", forgotpasswordController.verifyotp)
-router.post("/update-password", forgotpasswordController.verifyotp)
+router.post("/forgot", forgotpasswordController.forgot)
+router.post("/verify-otp", forgotpasswordController.verify_otp)
+router.post("/update-password", forgotpasswordController.forgot_password)
 // router.get('/*', forgotpasswordController.getError)
 // router.post('/*', forgotpasswordController.notAllowed)
 

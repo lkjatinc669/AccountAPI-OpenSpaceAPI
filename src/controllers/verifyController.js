@@ -57,6 +57,7 @@ async function verifyotp(req, res){
         res.json({"ERROR":true, "ERRCODE": list[1], "DESC": list[2], "DATA":null})
     } else {
         const yy = await verifyData.verifyotpCracks(data[0], data[1], data[2])
+        console.log(yy)
         res.json({
             "ERROR" :yy[0], 
             "ERRCODE" : yy[1], 
@@ -68,20 +69,20 @@ async function verifyotp(req, res){
 
 function filterFetchB(r){
     isUserIDExists = false; 
-    isTokenExists = false;
+    isVTokenExists = false;
     isOTPExists = false;
 
-    var rStr = "Please Provide "
+    var rStr = "Provide"
     var ERRCODESTR = "PROVIDE" 
     
     if (r.userid) { isUserIDExists = true } else { rStr += " userid"; ERRCODESTR += "_USERID" }
 
-    if (r.token) { isTokenExists = true} else { rStr = " token"; ERRCODESTR += "_TOKEN" }
+    if (r.vtoken) { isVTokenExists = true} else { rStr += " vtoken"; ERRCODESTR += "_VTOKEN" }
 
-    if(r.otp) { isOTPExists = true} else { rStr = " otp"; ERRCODESTR += "_OTP" }
+    if(r.otp) { isOTPExists = true} else { rStr += " otp"; ERRCODESTR += "_OTP" }
 
-    if (isUserIDExists && isTokenExists && isOTPExists) { 
-        { return [true, "NO_ERROR", null, [r.userid, r.token, r.otp]] }
+    if (isUserIDExists && isVTokenExists && isOTPExists) { 
+        { return [true, "NO_ERROR", null, [r.userid, r.vtoken, r.otp]] }
     } else {
         { return [false, ERRCODESTR, rStr, null] }
     }

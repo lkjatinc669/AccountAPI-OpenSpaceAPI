@@ -1,25 +1,25 @@
 function verifyMail(mail) {
-    // (/^[A-Za-z0-9+.]+@[A-Za-z0-9.-]+$/, "gm");
-    const emailReg = new RegExp(/^[A-Za-z0-9+.]{6}[A-Za-z0-9]+@(gmail|yahoo|outlook|hotmail)[.com]/g, )
-    return isValidEmail = emailReg.test(mail);
+    var mailReg = /^[a-zA-Z0-9_.+]+(?<!^[0-9]*)@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+    if (mail !== '' && mail.match(mailReg)) { return true; }
+    return false;
 }
 
 function verifyUserName(username) {
-    // (/^[A-Za-z0-9+.]+@[A-Za-z0-9.-]+$/, "gm");
-    const usernameReg = new RegExp(/^[A-Za-z0-9_.]{5}/g, )
-    return usernameReg.test(username);
+    const usernameReg = /[A-Za-z0-9_.]{5}/g
+    if (username !== '' && username.match(usernameReg) && username.length<26) { return true; }
+    return false;
 }
 
 function verifyName(name) {
-    // (/^[A-Za-z0-9+.]+@[A-Za-z0-9.-]+$/, "gm");
-    const nameReg = new RegExp(/^[A-Za-z0-9]/g, )
-    return nameReg.test(name);
+    const nameReg = /[A-Za-z0-9]/g
+    if (name !== '' && name.match(nameReg) && name.length <16) { return true; }
+    return false;
 }
 
 function verifyPassword(pass) {
-    // (/^[A-Za-z0-9+.]+@[A-Za-z0-9.-]+$/, "gm");
-    const passwordReg = new RegExp(/^[A-Za-z0-9]{40}/g, )
-    return passwordReg.test(pass);
+    const passwordReg = /[A-Za-z0-9]{40}/g
+    if (pass !== '' && pass.match(passwordReg)) { return true; }
+    return false;
 }
 
 module.exports = {verifyMail, verifyUserName, verifyName, verifyPassword}

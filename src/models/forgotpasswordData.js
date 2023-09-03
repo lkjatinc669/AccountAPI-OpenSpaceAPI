@@ -3,6 +3,7 @@ const md5 = require('md5')
 const generator = require("../extra/generators")
 const printer = require("../extra/colorPrinter")
 const connection = require("../db/connection")
+const mailer = require("../extra/mailer")
 const userTable = process.env.USERSTABLE;
 const fpTable = process.env.FPTABLE;
 
@@ -39,7 +40,10 @@ async function fpgenerateCracks(username, mail, token) {
     if (outs) {
         crack = await optUpdate(userUnqID, fpGenToken, hash)
         if(crack == 1){
-            if (mailer(mail, otp)){
+            // const mails = await mailer.sendMailOTP(mail, otp)
+            // console.log(mails)
+            mails = false;
+            if (mails){
                 a = true;
                 ERRCODESTR = "OTP_UPDATED_AND_SEND"
                 r="OTP re-send successfully"
@@ -54,7 +58,10 @@ async function fpgenerateCracks(username, mail, token) {
     } else {
         crack = await otpInsert(unqID, userUnqID, fpGenToken, hash)
         if (crack == 1){
-            if (mailer(mail, otp)){
+            // const mails = await mailer.sendMailOTP(mail, otp)
+            // console.log(mails)
+            mails = false;
+            if (mails){
                 a = true
                 ERRCODESTR = "OTP_INSERTED_AND_SEND"
                 r="OTP inserted and send successfully"
@@ -68,6 +75,12 @@ async function fpgenerateCracks(username, mail, token) {
         }
     }
     return [a, ERRCODESTR, r, [fpGenToken]]
+}
+
+function genOTP() {
+    const out = generator(8)
+    const outhash = md5(out)
+    return [out, outhash]
 }
 
 async function fpUnM(username, mail){
@@ -112,7 +125,7 @@ async function optUpdate(userID, fpToken, hash) {
 
 async function otpInsert(unqid, userID, fpToken, hash) {
     QUERY = `INSERT INTO ${fpTable} (unqID, userID, fpToken, fpVerified, fpPassToken, otpHash, time)
-    VALUES ('${unqid}', '${userID}', '${fpToken}', '0', NULL, '${hash}', CURRENT_TIMESTAMP)`
+    VALUES ('${unqid}', '${userID}', '${fpToken}', '0', '0', '${hash}', CURRENT_TIMESTAMP)`
     const [yy] = await connection.query(QUERY)
     .catch(error => printer.warning("[ERROR] : "+error))
     return await yy['affectedRows']

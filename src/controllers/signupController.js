@@ -8,14 +8,11 @@ function getError(req, res) {
 async function main(req, res) {
     
     const list = filterFetch(req.query)
-    res.json(list)
-    // signupCracks(fname, lname, mail, username, password)
-    data = list[3]
     if(!list[0]){
         res.json({"ERROR":true, "ERRCODE": list[1], "DESC": list[2], "DATA":null})
     } else {
         // yy = await signupData.signupCracks(data[0], data[1], data[2], data[3], data[4]) 
-        yy = await signupData.signupCracks(data[0], data[1], data[2], data[3], data[4])
+        yy = await signupData.signupCracks(list[3][0], list[3][1], list[3][2], list[3][3], list[3][4])
         if (!yy[0]){
             res.json({
                 "ERROR" : false,

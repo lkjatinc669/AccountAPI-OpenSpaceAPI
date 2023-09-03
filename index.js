@@ -8,6 +8,7 @@ function filename() {
 const printer = require("./src/extra/colorPrinter")
 const path = require("path")
 const express = require("express");
+const fileUpload = require('express-fileupload');
 const connection = require("./src/db/connection");
 
 loginRoute = require("./src/routes/loginRoutes")
@@ -15,16 +16,18 @@ signupRoute = require("./src/routes/signupRoutes")
 verifyRoute = require("./src/routes/verifyRoutes")
 checkRoute = require("./src/routes/checkRoutes")
 forgotpasswordRoute = require("./src/routes/forgotpasswordRoutes")
+updateRoute = require("./src/routes/updateRoutes")
 
 const PORT = 6691;
 const app = express();
+app.use(fileUpload());
 
 app.use("/login", loginRoute)
 app.use("/signup", signupRoute)
 app.use("/forgot-password", forgotpasswordRoute)
 app.use("/verify", verifyRoute)
 app.use("/check", checkRoute)
-
+app.use("/update", updateRoute)
 
 printer.info("[INFO] : Initiating Database Connection")
 connection.query("SELECT 1=1")

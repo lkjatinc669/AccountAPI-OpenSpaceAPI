@@ -16,7 +16,7 @@ async function forgot(req, res) {
             "DATA": null
         })
     } else {
-        const yy = await forgotpasswordData.fpotpCracks(data[3][0], data[3][1], data[3][2])
+        const yy = await forgotpasswordData.fpgenerateCracks(data[3][0], data[3][1], data[3][2])
         if (!yy[0]){
             res.json({
                 "ERROR": yy[0],
@@ -34,13 +34,6 @@ async function forgot(req, res) {
                 }
             })
         }
-    }
-
-    if (!list[0]){
-        console.log(false)
-    } else {
-        const yy = await forgotpasswordData.fpgenerateCracks(data[0], data[1], data[2])
-        res.json(yy)
     }
 }
 
@@ -152,7 +145,6 @@ async function verify_otp(req, res) {
     }
 }
 
-
 function filterFetchv2(r) {
     var isfpTokenExist = false;
     var isOTPHashExist = false;
@@ -177,7 +169,7 @@ function filterFetchv2(r) {
     }
 }
 
-async function forgot_passwowrd(req, res) {
+async function forgot_password(req, res) {
     data = filterFetchv3(req.query)
 
     if (!data[0]){
@@ -238,4 +230,4 @@ function notAllowed(req, res) {
     res.json({ "ERROR": true, "ERRCODE": "NO_PATH_EXIST", "DESC": "Invalid Path or Path not Exist", "DATA": null })
 }
 
-module.exports = { getError, forgot, notAllowed }
+module.exports = { getError, forgot, verify_otp, forgot_password, notAllowed }
