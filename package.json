@@ -1,11 +1,11 @@
 {
-  "name": "openspaceaccapi",
+  "name": "accountsapi-openspaceapi",
   "version": "0.0.1",
   "description": "A Accounts API developed under OpenSpaceAPI",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index.js",
-    "start": "nodemon index.js"
+    "developer": "nodemon index.js",
+    "start": "node index.js"
   },
   "author": "Jatin Gohil (@lkjatinc669)",
   "license": "ISC",
