@@ -19,3 +19,5 @@ CREATE TABLE IF NOT EXISTS users(
 -- newToken => osa_newToken
 -- isVerified => osa_isVerified
 -- isDisable => osa_isDisabled
+
+
