@@ -3,6 +3,7 @@ const md5 = require('md5')
 const generator = require("../extra/generators")
 const printer = require("../extra/colorPrinter")
 const connection = require("../db/connection")
+const mailer = require("../extra/mailer")
 const userTable = process.env.USERSTABLE;
 const verifyTable = process.env.VERIFYTABLE;
 
@@ -33,7 +34,7 @@ async function verifygenerateCracks(userID, email) {
         ERRCODESTR = "OTP_SEND"
         r="OTP send successfully"
     }
-    mailer(email, otp)
+    mailer.sendVMailOTP(email, otp)
     return [true, ERRCODESTR, r, [crack, verifyGenToken]]
 }
 
@@ -144,8 +145,8 @@ async function updateVerification(userID) {
 
 // Global Helper Function
 
-function mailer(to, otp) { console.log(`Gmail: ${to}. Your OTP is ${otp}`); }
-function insert(data) { console.log(`Inserting ${data}`) }
+// function mailer(to, otp) { console.log(`Gmail: ${to}. Your OTP is ${otp}`); }
+// function insert(data) { console.log(`Inserting ${data}`) }
 
 function genOTP() {
     const out = generator(8)

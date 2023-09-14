@@ -57,7 +57,7 @@ async function fpgenerateCracks(username, mail, token) {
     } else {
         crack = await otpInsert(unqID, userUnqID, fpGenToken, hash)
         if (crack == 1){
-            const mails = await mailer.sendMailOTP(mail, otp)
+            const mails = await mailer.sendFPMailOTP(mail, otp)
             console.log(mails)
             mails = false;
             if (mails){

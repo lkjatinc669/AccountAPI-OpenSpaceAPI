@@ -78,7 +78,6 @@ function filterFetchv1(r){
 }
 
 async function update_profilepic(req, res) {
-    console.log(req.query)
     var data = filterFetchv2(req.body, req.files)
     if (!data[0]){
         res.json({
@@ -88,9 +87,7 @@ async function update_profilepic(req, res) {
             "DATA": null
         })
     } else {
-        console.log(data[3])
         const yy = await profilePicMover(data[3][1])
-        console.log(yy)
         if(!yy[0]){
             res.json({
                 "ERROR": true,
@@ -156,20 +153,24 @@ function filterFetchv2(rq, rf) {
 
 async function profilePicMover(file){
     let uploadPath;
-
-    extension = getExtension(file.name)
+    extension = getExtension(file[0]['name'])
 
     fileGen = generator(10) + "." + extension
     var isFileGenExist = await updateData.checkProfileExists(fileGen)
     while (isFileGenExist) { fileGen = generator(10)+ "." + extension; isFileGenExist = await updateData.checkProfileExists(fileGen) }
 
-    newfilename = fileGen + "." + extension;
-    uploadPath = "D:\\Publicons\\"+ newfilename;
-    profilepic.mv(uploadPath, function(err) {
-        if (err)
-        return [false, "ERROR_IN_UPLOADING", "Error in Moving Profile to the Server", null];
-        return [true, "NO_ERROR", null, [newfilename]]
+    newfilename = fileGen;
+    uploadPath = "./src/profilePics/"+ newfilename;
+    uploadsucc = false
+    await profilepic.mv(uploadPath, function(err) {
+        if (err) uploadsucc = false 
+        else uploadsucc = true
     });
+    if (uploadsucc){
+        return [false, "ERROR_IN_UPLOADING", "Error in Moving Profile to the Server", null];
+    } else {
+        return [true, "NO_ERROR", null, [newfilename]]
+    }
 }
 
 function getExtension(filename){
