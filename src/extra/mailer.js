@@ -1,11 +1,42 @@
 require("dotenv").config()
 nodemailer = require('nodemailer');
 
+async function sendFPMailOTP(to, otp){
+    const smtpProtocol = nodemailer.createTransport({
+        host: "smtp-relay.sendinblue.com",
+        port: 587,
+        secure: false,
+        auth: {
+            user: "t.frozen.143@gmail.com",
+            pass: "EtOa8c9pdHFBqbD7"
+        }
+    });
+    const mailoption = {
+        from: "info.openspaceapi@api",
+        to: to,
+        subject: "Your OTP for Reseting Password",
+        text:"Your OTP is "+otp,
+        html: VOTPhtml(otp)
+    }
+    isSend = false
+    await smtpProtocol.sendMail(mailoption)
+        .then((data)=>{
+            console.log(data)
+            if (data['accepted'].length > 0){
+                isSend = true
+            } else {
+                isSend = false;
+            }
+        })
+        .catch(err => {
+            isSend = false;
+        })
+    return isSend;
+}
 
-// console.log("smtpProtocol "+smtpProtocol. );
+FPOTPhtml = (user, OTP) => `<!DOCTYPE html><html><head><meta http-equiv="cache-control" content="no-cache"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="-1"><style type="text/css">*{margin:0;padding:0;box-sizing:border-box}body{background-color:#0e0a14;color:#fff}a{color:#fff}.container{width:100%;padding:12px;margin:0 auto}.body,.footer,.header{padding:12px}.text-center{text-align:center}.footer{padding-top:20px}</style><title>HTML, CSS and JavaScript demo</title></head><body><div class="container"><div class="header"><h1>EBookSy</h1></div><div class="body"><hr><br><p>Hi ${user},</p><br><p>We received a request to reset your Facebook password.</p><p>Enter the following password reset code:</p><br><p>${OTP}</p><br><hr></div><div class="footer text-center"><p>Powered By</p><h4>OpenSpaceAPI</h4></div></div></body></html>`
 
-async function sendMailOTP(to, otp){
-    
+async function sendVMailOTP(to, otp){
     const smtpProtocol = nodemailer.createTransport({
         host: "smtp-relay.sendinblue.com",
         port: 587,
@@ -17,62 +48,29 @@ async function sendMailOTP(to, otp){
     });
 
     const mailoption = {
-        from: "info.openspaceapi@api",
+        from: "no-reply.openspaceapi@api",
         to: to,
-        subject: "Your OTP",
+        subject: "Your OTP for eBookSy Account Verification",
         text:"Your OTP is "+otp,
-        html: OTPhtml(otp)
+        html: VOTPhtml("User", otp)
     }
-
-    console.log("MailOption "+mailoption)
-
-    smtpProtocol.sendMail(mailoption)
+    isSend = false
+    await smtpProtocol.sendMail(mailoption)
         .then((data)=>{
-            if (data['accepted'].length < 0){
-                return true;
+            console.log(data)
+            if (data['accepted'].length > 0){
+                isSend = true
             } else {
-                return false;
+                isSend = false;
             }
         })
         .catch(err => {
-            return false;
+            isSend = false;
         })
-
-    // const info = await smtpProtocol.sendMail(mailoption, function(err, response){
-    //     if(err) {
-    //         console.log(err);
-    //         return false;
-    //     }
-    //     console.log('Message Sent' + response.message);
-    //     smtpProtocol.close();
-    //     console.log("Info "+info)
-    //     return true;
-    // });
+    return isSend;
 }
 
-OTPhtml = (data) => `<!DOCTYPE html><html lang="en"><head><style>*{margin:0;padding:0;box-sizing:border-box}html{height:300px}body{height:100%;background-color:#171717;color:#f5f5f5;display:flex;flex-direction:column;align-items:center;justify-content:center}img{width:130px;border-radius:10px}</style></head><body><img src="https://deep-image.ai/blog/content/images/2022/09/underwater-magic-world-8tyxt9yz.jpeg" alt="logo"><h1 id="title">EBooksy</h1><h4>Integration with OpenSpaceAPI</h4><p>Your OTP is ${data}</p></body></html>`
+VOTPhtml = (user, OTP) => `
+<!DOCTYPE html><html><head><meta http-equiv="cache-control" content="no-cache"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="-1"><style type="text/css">*{margin:0;padding:0;box-sizing:border-box}body{background-color:#0e0a14;color:#fff}a{color:#fff}.container{width:100%;padding:12px;margin:0 auto}.body,.footer,.header{padding:12px}.text-center{text-align:center}.footer{padding-top:20px}</style><title>HTML, CSS and JavaScript demo</title></head><body><div class="container"><div class="header"><h1>EBookSy</h1></div><div class="body"><hr><br><p>Hi ${user},</p><br><p>Your OTP for verification is :</p><br><p>${OTP}</p><br><hr></div><div class="footer text-center"><p>Powered By</p><h4>OpenSpaceAPI</h4></div></div></body></html>`
 
-module.exports = {sendMailOTP}
-
-
-// const transporter = nodemailer.createTransport({
-
-//     host: "smtp-relay.sendinblue.com",
-//     port: 587,
-//     secure: false,
-//     auth: {
-//         user: "t.frozen.143@gmail.com",
-//         pass: "EtOa8c9pdHFBqbD7"
-//     }
-//   });
-
-
-
-
-// transporter.verify(function (error, success) {
-//     if (error) {
-//       console.log(error);
-//     } else {
-//       console.log("Server is ready to take our messages");
-//     }
-//   });
+module.exports = {sendFPMailOTP, sendVMailOTP}

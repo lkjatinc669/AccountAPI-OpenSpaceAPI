@@ -40,8 +40,7 @@ async function fpgenerateCracks(username, mail, token) {
     if (outs) {
         crack = await optUpdate(userUnqID, fpGenToken, hash)
         if(crack == 1){
-            // const mails = await mailer.sendMailOTP(mail, otp)
-            // console.log(mails)
+            const mails = await mailer.sendMailOTP(mail, otp)
             mails = false;
             if (mails){
                 a = true;
@@ -58,8 +57,8 @@ async function fpgenerateCracks(username, mail, token) {
     } else {
         crack = await otpInsert(unqID, userUnqID, fpGenToken, hash)
         if (crack == 1){
-            // const mails = await mailer.sendMailOTP(mail, otp)
-            // console.log(mails)
+            const mails = await mailer.sendMailOTP(mail, otp)
+            console.log(mails)
             mails = false;
             if (mails){
                 a = true

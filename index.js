@@ -29,6 +29,13 @@ app.use("/verify", verifyRoute)
 app.use("/check", checkRoute)
 app.use("/update", updateRoute)
 
+app.get("/", (req, res)=>{
+    res.json({ "ERROR": true, "ERRCODE": "GET_NOT_ALLOWED", "DESC": "Insecure way of Sending Data", "DATA": null })
+})
+app.post("/", (req, res)=>{
+    res.json({ "ERROR": true, "ERRCODE": "NO_PATH_EXIST", "DESC": "Invalid Path or Path not Exist", "DATA": null })
+})
+
 printer.info("[INFO] : Initiating Database Connection")
 connection.query("SELECT 1=1")
     .then(data => {
