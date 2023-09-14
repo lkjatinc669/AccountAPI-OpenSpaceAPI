@@ -19,7 +19,7 @@ function main(req, res) {
                     res.json({ "ERROR":true, "ERRCODE":yy[1], "DESC":yy[2], "DATA":yy[3] })
                 } else {
                     res.json({ "ERROR":false, "ERRCODE":yy[1], "DESC":yy[2], "DATA":{
-                        "id" : yy[3][0],
+                        "userid" : yy[3][0],
                         "fname" : yy[3][1],
                         "lname" : yy[3][2],
                         "mail" : yy[3][3],
@@ -38,7 +38,7 @@ function main(req, res) {
                     res.json({ "ERROR":true, "ERRCODE":yy[1], "DESC":yy[2], "DATA":yy[3] })
                 } else {
                     res.json({ "ERROR":false, "ERRCODE":yy[1], "DESC":yy[2], "DATA":{
-                        "id" : yy[3][0],
+                        "userid" : yy[3][0],
                         "fname" : yy[3][1],
                         "lname" : yy[3][2],
                         "mail" : yy[3][3],
@@ -59,7 +59,6 @@ function z(a) { console.log(a) }
 function filterFetch(r) {
     var rStr = "Please Provide "
     var ERRCODESTR = "PROVIDE"
-    console.log("------------------------------")
     var isTypeExist = false;
     var isValidTypeExist = false;
     var isDataExist = false;
