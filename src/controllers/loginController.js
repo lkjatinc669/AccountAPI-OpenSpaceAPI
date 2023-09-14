@@ -29,7 +29,6 @@ function main(req, res) {
                         "isverified" : yy[3][8],
                     }})
                 }
-                console.log(yy)
             })();
         } else {
             (async () => {
@@ -48,7 +47,6 @@ function main(req, res) {
                         "isverified" : yy[3][8],
                     }})
                 }
-                console.log(yy)
             })();
         }
     }
